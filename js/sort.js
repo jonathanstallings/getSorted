@@ -32,11 +32,26 @@ function swap (first, second) {
     .insertBefore(selectBlock(first));
 }
 
-function toggleRaise (block) {
+function raiseBlock (block) {
   //raise a block
-  // $display.children().eq(block - 1).toggleClass("raised");
-  selectBlock(block).toggleClass("raised");
-  return selectBlock(block);
+  var $thisBlock = selectBlock(block);
+
+  if ($thisBlock.hasClass("lowered")) {
+    $thisBlock.toggleClass("lowered");
+  } else {
+    $thisBlock.toggleClass("raised");
+  }
+}
+
+function lowerBlock (block) {
+  //raise a block
+  var $thisBlock = selectBlock(block);
+
+  if ($thisBlock.hasClass("raised")) {
+    $thisBlock.toggleClass("raised");
+  } else {
+    $thisBlock.toggleClass("lowered");
+  }
 }
 
 function toggleNudge (block, direction) { //refactor with toggleRaise
@@ -71,13 +86,30 @@ function toggleHidden (block) {
 
 function exchange (first, second) { //fine tune this
   //exchange two blocks with animation
-  toggleRaise(second);
+  raiseBlock(second);
   toggleNudge(second, "left");
   toggleNudge(first, "right");
   setTimeout(swap, 800, first, second);
   setTimeout(toggleNudge, 1000, second, "right");
   setTimeout(toggleNudge, 1000, first, "left");
-  setTimeout(toggleRaise, 1000, first);
+  setTimeout(raiseBlock, 1000, first);
+}
+
+function exchange (first, second) { //fine tune this
+  //exchange two blocks with animation
+  raiseBlock(second);
+  lowerBlock(first);
+  // toggleNudge(second, "left");
+  pushBlock(second, -3);
+  // toggleNudge(first, "right");
+  pushBlock(first, 3);
+  setTimeout(swap, 800, first, second);
+  // setTimeout(toggleNudge, 1000, second, "right");
+  setTimeout(pushBlock, 1000, second, 3);
+  // setTimeout(toggleNudge, 1000, first, "left");
+  setTimeout(pushBlock, 1000, first, -3);
+  setTimeout(raiseBlock, 1000, first);
+  setTimeout(lowerBlock, 1000, second);
 }
 
 function doIt () {
