@@ -236,44 +236,92 @@ fieldset {
   height: 220px;
 }
 
-.position1 {
-  left: 40px;
+.shiftLeft1 {
+  margin-left: -20px;
 }
 
-.position2 {
-  left: 60px;
+.shiftLeft2 {
+  margin-left: -60px;
 }
 
-.position3 {
-  left: 80px;
+.shiftLeft3 {
+  margin-left: -100px;
 }
 
-.position4 {
-  left: 100px;
+.shiftLeft4 {
+  margin-left: -140px;
 }
 
-.position5 {
-  left: 120px;
+.shiftLeft5 {
+  margin-left: -180px;
 }
 
-.position6 {
-  left: 140px;
+.shiftLeft6 {
+  margin-left: -220px;
 }
 
-.position7 {
-  left: 160px;
+.shiftLeft7 {
+  margin-left: -260px;
 }
 
-.position8 {
-  left: 180px;
+.shiftLeft8 {
+  margin-left: -300px;
 }
 
-.position9 {
-  left: 200px;
+.shiftLeft9 {
+  margin-left: -340px;
 }
 
-.position10 {
-  left: 220px;
+.shiftLeft10 {
+  margin-left: -380px;
+}
+
+.shiftRight1 {
+  margin-right: -20px;
+}
+
+.shiftRight2 {
+  margin-right: -60px;
+}
+
+.shiftRight3 {
+  margin-right: -100px;
+}
+
+.shiftRight4 {
+  margin-right: -140px;
+}
+
+.shiftRight5 {
+  margin-right: -180px;
+}
+
+.shiftRight6 {
+  margin-right: -220px;
+}
+
+.shiftRight7 {
+  margin-right: -260px;
+}
+
+.shiftRight8 {
+  margin-right: -300px;
+}
+
+.shiftRight9 {
+  margin-right: -340px;
+}
+
+.shiftRight10 {
+  margin-right: -380px;
+}
+
+.rightSideGap {
+  margin-right: 40px;
+}
+
+.showTransitions {
+  transition: all 0.6s ease-in-out;
 }
 
 .faded {
