@@ -25,13 +25,6 @@ function selectBlock (block) {
   return $display.children().eq(block-1);
 }
 
-function swap (first, second) {
-  //swap two blocks
-  selectBlock(second)
-    .after(selectBlock(first))
-    .insertBefore(selectBlock(first));
-}
-
 function raiseBlock (block) {
   //raise a block
   var $thisBlock = selectBlock(block);
@@ -41,6 +34,7 @@ function raiseBlock (block) {
   } else {
     $thisBlock.toggleClass("raised");
   }
+  return $thisBlock;
 }
 
 function lowerBlock (block) {
@@ -52,6 +46,23 @@ function lowerBlock (block) {
   } else {
     $thisBlock.toggleClass("lowered");
   }
+  return $thisBlock;
+}
+
+function fadeBlock (block) {
+  //fades out a block
+  var $thisBlock = selectBlock(block);
+
+  $thisBlock.toggleClass("faded");
+  return $thisBlock;
+}
+
+function hideBlock (block) {
+  //fades out a block
+  var $thisBlock = selectBlock(block);
+
+  $thisBlock.toggleClass("hidden");
+  return $thisBlock;
 }
 
 function toggleNudge (block, direction) { //refactor with toggleRaise
@@ -60,62 +71,78 @@ function toggleNudge (block, direction) { //refactor with toggleRaise
   return selectBlock(block);
 }
 
-function pushBlock (block, units) { //refactor with toggleRaise
-  //push a direction
+function shiftBlock (block, units) { //refactor with toggleRaise
+  //shift block left or right
+  var $thisBlock = selectBlock(block);
   var offset = 'shift';
+  var lastOffset = $thisBlock.data("offset");
 
-  if (units < 0) {
-    offset += "Left";
-  } else {
-    offset += "Right";
+  //If already offset, remove previous offset.
+  if (lastOffset) {
+    $thisBlock
+      .removeClass(lastOffset)
+      .removeData("offset");
   }
-  offset += Math.abs(units);
-  selectBlock(block)
-    // .toggleClass("showTransitions")
-    .toggleClass(offset)
-    .prev().toggleClass("rightSideGap");
 
-  return selectBlock(block);
+  //Determine amount of offset and execute.
+  if (units) {
+    if (units < 0) {
+      offset += "Left";
+    } else {
+      offset += "Right";
+    }
+    offset += Math.abs(units);
+    $thisBlock
+      .toggleClass(offset)
+      .data("offset", offset);
+      // .prev().toggleClass("rightSideGap");
+  }
+
+  return $thisBlock;
 }
 
-function toggleHidden (block) {
-  //toggles a fade
-  selectBlock(block).toggleClass("hidden");
-  return selectBlock(block);
+function swap (first, second) {
+  //swap two blocks
+  selectBlock(second)
+    .after(selectBlock(first))
+    .insertBefore(selectBlock(first));
 }
 
-function exchange (first, second) { //fine tune this
+function exchangeOld (first, second) { //fine tune this
   //exchange two blocks with animation
+  lowerBlock(first);
   raiseBlock(second);
-  toggleNudge(second, "left");
-  toggleNudge(first, "right");
-  setTimeout(swap, 800, first, second);
-  setTimeout(toggleNudge, 1000, second, "right");
-  setTimeout(toggleNudge, 1000, first, "left");
-  setTimeout(raiseBlock, 1000, first);
+  // setTimeout(toggleNudge, 400, second, "left");
+  // setTimeout(toggleNudge, 400, first, "right");
+  setTimeout(swap, 600, first, second);
+  // setTimeout(toggleNudge, 600, second, "right");
+  // setTimeout(toggleNudge, 600, first, "left");
+  setTimeout(lowerBlock, 800, second);
+  setTimeout(raiseBlock, 800, first);
 }
 
 function exchange (first, second) { //fine tune this
   //exchange two blocks with animation
+
   raiseBlock(second);
   lowerBlock(first);
   // toggleNudge(second, "left");
-  pushBlock(second, -3);
+  shiftBlock(second, -3);
   // toggleNudge(first, "right");
-  pushBlock(first, 3);
+  shiftBlock(first, 3);
   setTimeout(swap, 800, first, second);
   // setTimeout(toggleNudge, 1000, second, "right");
-  setTimeout(pushBlock, 1000, second, 3);
+  setTimeout(shiftBlock, 1000, second, 3);
   // setTimeout(toggleNudge, 1000, first, "left");
-  setTimeout(pushBlock, 1000, first, -3);
+  setTimeout(shiftBlock, 1000, first, -3);
   setTimeout(raiseBlock, 1000, first);
   setTimeout(lowerBlock, 1000, second);
 }
 
 function doIt () {
   //test
-  exchange(9,10);
-  setTimeout(exchange, 2000, 8, 9);
+  exchangeOld(9,10);
+  setTimeout(exchangeOld, 1600, 8, 9);
 }
 
 var grid = new Grid(10);
