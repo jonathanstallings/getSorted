@@ -189,10 +189,9 @@ fieldset {
   width: 20px;
   float: left;
   border: 1px solid white;
-  margin: auto 0 0 20px;
   position: relative;
   bottom: 0;
-  transition: bottom 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
 }
 
 .blockItem {
@@ -242,6 +241,46 @@ fieldset {
 
 .height10 {
   height: 220px;
+}
+
+.position1 {
+  left: 40px;
+}
+
+.position2 {
+  left: 60px;
+}
+
+.position3 {
+  left: 80px;
+}
+
+.position4 {
+  left: 100px;
+}
+
+.position5 {
+  left: 120px;
+}
+
+.position6 {
+  left: 140px;
+}
+
+.position7 {
+  left: 160px;
+}
+
+.position8 {
+  left: 180px;
+}
+
+.position9 {
+  left: 200px;
+}
+
+.position10 {
+  left: 220px;
 }
 
 .raised {
