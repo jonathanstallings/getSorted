@@ -108,7 +108,7 @@ function swapBlocks (first, second) {
     .insertBefore(selectBlock(first));
 }
 
-function exchangeBlocks (first, second) { //fine tune this
+function exchangeBlocks (first, second) {
   //Exchange two blocks with simple animation.
   lowerBlock(first);
   raiseBlock(second);
@@ -140,10 +140,23 @@ var grid = new Grid(10);
 
 function shuffleBlocks (m) {
   //shuffle all blocks.
-  var rand = Math.floor(Math.random() * --m);
+  var rand = Math.floor(Math.random() * m--);
 
-  exchangeBlocks(rand + 1, m + 1);
-  if (m) {
-    setTimeout(shuffleBlocks, 2000, m);
+  if (rand != m) { //random choice is not last block
+    exchangeBlocks(rand + 1, m + 1); //do animation
+    if (m) {
+      setTimeout(shuffleBlocks, 2000, m);
+    }
+  } else { //else skip animation time
+    if (m) {
+      shuffleBlocks(m);
+    }
   }
 }
+
+  /*************************
+  Event Listeners
+  **************************/
+  $("#shuffleButton").on("click", function () {
+    shuffleBlocks($(".blockFrame").length);
+  });
