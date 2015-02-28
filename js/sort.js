@@ -57,6 +57,10 @@ function fadeBlock (block) {
   return $thisBlock;
 }
 
+function fadeGrid () {
+  $display.children().toggleClass("faded");
+}
+
 function hideBlock (block) {
   //Hides a block, keeping element placement.
   var $thisBlock = selectBlock(block);
@@ -110,33 +114,20 @@ function swapBlocks (first, second) {
 
 function exchangeBlocks (first, second) {
   //Exchange two blocks with simple animation.
+  fadeGrid();
+  fadeBlock(first);
+  fadeBlock(second);
   lowerBlock(first);
   raiseBlock(second);
-  setTimeout(swapBlocks, 600, first, second);
-  setTimeout(lowerBlock, 800, second);
-  setTimeout(raiseBlock, 800, first);
-}
-
-function doIt () {
-  //Test
-  exchangeBlocks(9,10);
-  setTimeout(exchangeBlocks, 1600, 8, 9);
-  setTimeout(exchangeBlocks, 3200, 7, 8);
-  setTimeout(exchangeBlocks, 4800, 6, 7);
+  setTimeout(swapBlocks, 400, first, second);
+  setTimeout(lowerBlock, 600, second);
+  setTimeout(raiseBlock, 600, first);
+  setTimeout(fadeBlock, 600, second);
+  setTimeout(fadeBlock, 600, first);
+  setTimeout(fadeGrid, 700);
 }
 
 var grid = new Grid(10);
-
-// var shuffle = function(m) {
-//   var rand, $rand;
-//   rand = Math.floor(Math.random() * m--);
-//   $('li:eq(' + m + ')').
-//     after($('li:eq(' + rand + ')')).
-//     insertBefore($('li:eq(' + rand + ')'));
-//   if(m) {
-//     setTimeout(shuffle, 100, m);
-//   }
-// };
 
 function shuffleBlocks (m) {
   //shuffle all blocks.
@@ -145,18 +136,20 @@ function shuffleBlocks (m) {
   if (rand != m) { //random choice is not last block
     exchangeBlocks(rand + 1, m + 1); //do animation
     if (m) {
-      setTimeout(shuffleBlocks, 2000, m);
+      setTimeout(shuffleBlocks, 1200, m);
     }
   } else { //else skip animation time
     if (m) {
       shuffleBlocks(m);
     }
   }
+  // $display.children().toggleClass("faded");
 }
 
-  /*************************
-  Event Listeners
-  **************************/
-  $("#shuffleButton").on("click", function () {
-    shuffleBlocks($(".blockFrame").length);
-  });
+/*************************
+Event Listeners
+**************************/
+
+$("#shuffleButton").on("click", function () {
+  shuffleBlocks($(".blockFrame").length);
+});
