@@ -107,7 +107,7 @@ img {
 main {
   min-height: 800px;
   position: relative;
-  padding: 15px 0;
+/*  padding: 15px 0;*/
 }
 
 main p {
@@ -115,7 +115,8 @@ main p {
 }
 
 fieldset {
-  float: left;
+/*  float: left;*/
+margin: 20px;
 }
 
 .wrapper {
@@ -125,7 +126,7 @@ fieldset {
 
 .container {
   margin: 0 auto;
-  width: 400px;
+  width: 300px;
 }
 
 .navbar {
@@ -150,19 +151,6 @@ fieldset {
   padding-bottom: 15px;
 }
 
-#preload {
-
-}
-
-#controls {
-  min-height: 10%;
-}
-
-.current {
-  color: white;
-  font-weight: bold;
-}
-
 .logo {
   float: left;
   font-size: 1.2rem;
@@ -170,11 +158,34 @@ fieldset {
   padding: 15px;
 }
 
-#display {
-  padding: 20px 0;
-  position: relative;
+.current {
+  color: white;
+  font-weight: bold;
 }
 
+#controls {
+  min-height: 800px;
+  height: 100%;
+  padding: 50px;
+  float: left;
+  background-color: rgba(40,40,40,0.5);
+
+/*  box-shadow:
+  0 0 0 5px hsl(0, 0%, 10%),
+  0 0 0 10px hsl(0, 0%, 20%);*/
+}
+
+/*************************
+Visualiztion Display
+**************************/
+
+#display {
+  min-width: 500px;
+  margin: 0 auto;
+  padding: 240px 40px;
+  float: left;
+  position: relative;
+}
 
 .blockFrame {
   height: 220px;
@@ -195,6 +206,30 @@ fieldset {
   text-align: center;
   color: black;
 }
+
+.showTransitions {
+  transition: all 0.6s ease-in-out;
+}
+
+.faded {
+  opacity: 0.3;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.raised {
+  bottom: 240px;
+}
+
+.lowered {
+  bottom: -240px;
+}
+
+/*************************
+Grid Sizing and Postioning
+**************************/
 
 .height1 {
   height: 40px;
@@ -320,46 +355,28 @@ fieldset {
   margin-right: 40px;
 }
 
-.showTransitions {
-  transition: all 0.6s ease-in-out;
+/*************************
+Media Queries
+**************************/
+
+@media (max-width: 900px) {
+
+  .wrapper {
+/*    padding 5px;*/
+  }
+
+  #controls {
+    min-height: 400px;
+    width: 100%;
+    border-bottom: 1px solid rgb(30,30,30);
+  }
+
 }
 
-.faded {
-  opacity: 0.3;
-}
-
-.hidden {
-  visibility: hidden;
-}
-
-.raised {
-  bottom: 240px;
-}
-
-.lowered {
-  bottom: -240px;
-}
-
-.left {
-  margin-left: 0;
-}
-
-.right {
-  margin-left: 40px;
-}
-
-@media (max-width: 650px) {
+/*@media (max-width: 500px) {
 
   .wrapper {
     padding 5px;
   }
 
-}
-
-@media (max-width: 500px) {
-
-  .wrapper {
-    padding 5px;
-  }
-
-}
+}*/
