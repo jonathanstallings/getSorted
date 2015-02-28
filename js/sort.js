@@ -21,12 +21,12 @@ function Grid (columns) {
 }
 
 function selectBlock (block) {
-  //selects a DOM block
+  //Select a DOM block
   return $display.children().eq(block-1);
 }
 
 function raiseBlock (block) {
-  //raise a block
+  //Raise a block
   var $thisBlock = selectBlock(block);
 
   if ($thisBlock.hasClass("lowered")) {
@@ -38,7 +38,7 @@ function raiseBlock (block) {
 }
 
 function lowerBlock (block) {
-  //raise a block
+  //Lower a block
   var $thisBlock = selectBlock(block);
 
   if ($thisBlock.hasClass("raised")) {
@@ -50,7 +50,7 @@ function lowerBlock (block) {
 }
 
 function fadeBlock (block) {
-  //fades out a block
+  //Fades out a block
   var $thisBlock = selectBlock(block);
 
   $thisBlock.toggleClass("faded");
@@ -58,7 +58,7 @@ function fadeBlock (block) {
 }
 
 function hideBlock (block) {
-  //fades out a block
+  //Hides a block, keeping element placement.
   var $thisBlock = selectBlock(block);
 
   $thisBlock.toggleClass("hidden");
@@ -66,13 +66,13 @@ function hideBlock (block) {
 }
 
 function toggleNudge (block, direction) { //refactor with toggleRaise
-  //push a direction
+  //Push a block a small distance.
   selectBlock(block).toggleClass(direction);
   return selectBlock(block);
 }
 
 function shiftBlock (block, units) { //refactor with toggleRaise
-  //shift block left or right
+  //Shift block left or right.
   var $thisBlock = selectBlock(block);
   var offset = 'shift';
   var lastOffset = $thisBlock.data("offset");
@@ -101,48 +101,28 @@ function shiftBlock (block, units) { //refactor with toggleRaise
   return $thisBlock;
 }
 
-function swap (first, second) {
-  //swap two blocks
+function swapBlocks (first, second) {
+  //Swap two blocks.
   selectBlock(second)
     .after(selectBlock(first))
     .insertBefore(selectBlock(first));
 }
 
-function exchangeOld (first, second) { //fine tune this
-  //exchange two blocks with animation
+function exchangeBlocks (first, second) { //fine tune this
+  //Exchange two blocks with simple animation.
   lowerBlock(first);
   raiseBlock(second);
-  // setTimeout(toggleNudge, 400, second, "left");
-  // setTimeout(toggleNudge, 400, first, "right");
-  setTimeout(swap, 600, first, second);
-  // setTimeout(toggleNudge, 600, second, "right");
-  // setTimeout(toggleNudge, 600, first, "left");
+  setTimeout(swapBlocks, 600, first, second);
   setTimeout(lowerBlock, 800, second);
   setTimeout(raiseBlock, 800, first);
 }
 
-function exchange (first, second) { //fine tune this
-  //exchange two blocks with animation
-
-  raiseBlock(second);
-  lowerBlock(first);
-  // toggleNudge(second, "left");
-  shiftBlock(second, -3);
-  // toggleNudge(first, "right");
-  shiftBlock(first, 3);
-  setTimeout(swap, 800, first, second);
-  // setTimeout(toggleNudge, 1000, second, "right");
-  setTimeout(shiftBlock, 1000, second, 3);
-  // setTimeout(toggleNudge, 1000, first, "left");
-  setTimeout(shiftBlock, 1000, first, -3);
-  setTimeout(raiseBlock, 1000, first);
-  setTimeout(lowerBlock, 1000, second);
-}
-
 function doIt () {
-  //test
-  exchangeOld(9,10);
-  setTimeout(exchangeOld, 1600, 8, 9);
+  //Test
+  exchangeBlocks(9,10);
+  setTimeout(exchangeBlocks, 1600, 8, 9);
+  setTimeout(exchangeBlocks, 3200, 7, 8);
+  setTimeout(exchangeBlocks, 4800, 6, 7);
 }
 
 var grid = new Grid(10);
@@ -158,3 +138,12 @@ var grid = new Grid(10);
 //   }
 // };
 
+function shuffleBlocks (m) {
+  //shuffle all blocks.
+  var rand = Math.floor(Math.random() * --m);
+
+  exchangeBlocks(rand + 1, m + 1);
+  if (m) {
+    setTimeout(shuffleBlocks, 2000, m);
+  }
+}
