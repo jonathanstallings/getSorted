@@ -201,5 +201,11 @@ $("#shuffleButton").on("click", function (e) {
 
 $("#sortButton").on("click", function (e) {
   e.preventDefault();
-  insertionSort($(".blockFrame").length);
+  insertionSortAnimated(2, $(".blockFrame").length);
+});
+
+$("#resetButton").on("click", function (e) {
+  e.preventDefault();
+  $display.children().remove();
+  grid = new Grid(10);
 });
