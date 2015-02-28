@@ -53,12 +53,8 @@ function fadeBlock (block) {
   //Fades out a block
   var $thisBlock = selectBlock(block);
 
-  $thisBlock.toggleClass("faded");
+  $thisBlock.addClass("faded");
   return $thisBlock;
-}
-
-function fadeGrid () {
-  $display.children().toggleClass("faded");
 }
 
 function hideBlock (block) {
@@ -67,6 +63,17 @@ function hideBlock (block) {
 
   $thisBlock.toggleClass("hidden");
   return $thisBlock;
+}
+
+function showBlock (block) {
+  //Unfades or unhides a block
+  var $thisBlock = selectBlock(block);
+
+  $thisBlock.removeClass("faded hidden");
+}
+
+function fadeGridtoggle () {
+  $display.children().toggleClass("faded");
 }
 
 function toggleNudge (block, direction) { //refactor with toggleRaise
@@ -114,17 +121,15 @@ function swapBlocks (first, second) {
 
 function exchangeBlocks (first, second) {
   //Exchange two blocks with simple animation.
-  fadeGrid();
-  fadeBlock(first);
-  fadeBlock(second);
+  showBlock(first);
+  showBlock(second);
   lowerBlock(first);
   raiseBlock(second);
   setTimeout(swapBlocks, 400, first, second);
   setTimeout(lowerBlock, 600, second);
   setTimeout(raiseBlock, 600, first);
-  setTimeout(fadeBlock, 600, second);
-  setTimeout(fadeBlock, 600, first);
-  setTimeout(fadeGrid, 700);
+  setTimeout(fadeBlock, 1000, second);
+  setTimeout(fadeBlock, 1000, first);
 }
 
 var grid = new Grid(10);
@@ -137,13 +142,16 @@ function shuffleBlocks (m) {
     exchangeBlocks(rand + 1, m + 1); //do animation
     if (m) {
       setTimeout(shuffleBlocks, 1200, m);
+    } else {
+      fadeGridtoggle();
     }
   } else { //else skip animation time
     if (m) {
       shuffleBlocks(m);
+    } else {
+      fadeGridtoggle();
     }
   }
-  // $display.children().toggleClass("faded");
 }
 
 /*************************
@@ -151,5 +159,6 @@ Event Listeners
 **************************/
 
 $("#shuffleButton").on("click", function () {
+  fadeGridtoggle();
   shuffleBlocks($(".blockFrame").length);
 });
