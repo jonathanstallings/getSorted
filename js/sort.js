@@ -153,11 +153,37 @@ function insertionSort (m) {
     $temp = selectBlock(i);
 
     j=i;
-    while (j > 1 && selectBlock(j-1).data("number") > $temp.data("number")) { //&& A[j-1] > x
-      swapBlocks(j-1, j); //swap A[j] = A[j-1]
+    while (j > 1 && selectBlock(j-1).data("number") > $temp.data("number")) {
+      swapBlocks(j-1, j);
       j--;
     }
-    //A[j]=temp
+  }
+}
+
+function insertionSortAnimated (i, m) {
+  //Perform insertion sort.
+  var temp, j;
+  temp = selectBlock(i).data("number");
+  console.log("arggg!");
+
+  var innerLoop = function (i, j, m, temp) {
+    // body...
+    if (j>1 && selectBlock(j-1).data("number") > temp) {
+      exchangeBlocks(j-1, j);
+      j--;
+      if (j>0) {
+        setTimeout(innerLoop, 1200, i, j, m, temp);
+      } else {
+        setTimeout(insertionSortAnimated, 1200, ++i, m);
+      }
+    } else {
+      insertionSortAnimated(++i, m);
+    }
+  };
+
+  if (i<=m) {
+    j=i;
+    innerLoop(i, j, m, temp);
   }
 }
 
