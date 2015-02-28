@@ -4,7 +4,7 @@ $display = $("#display");
 function Block (column) {
   this.itemHeight = "height" + column;
   this.toHTML = function () {
-    var element = '<div class="blockFrame"><div class="blockItem ';
+    var element = '<div class="blockFrame" data-number=' + column +'><div class="blockItem ';
     element += this.itemHeight + '"';
     element += ">" + column + "</div></div>";
     return element;
@@ -73,23 +73,17 @@ function showBlock (block) {
 }
 
 function fadeGridtoggle () {
+  //Toggles faded state of grid.
   $display.children().toggleClass("faded");
 }
 
-function toggleNudge (block, direction) { //refactor with toggleRaise
-  //Push a block a small distance.
-  selectBlock(block).toggleClass(direction);
-  return selectBlock(block);
-}
-
-function shiftBlock (block, units) { //refactor with toggleRaise
+function shiftBlock (block, units) {
   //Shift block left or right.
   var $thisBlock = selectBlock(block);
   var offset = 'shift';
   var lastOffset = $thisBlock.data("offset");
 
-  //If already offset, remove previous offset.
-  if (lastOffset) {
+  if (lastOffset) { //If already offset, remove previous offset.
     $thisBlock
       .removeClass(lastOffset)
       .removeData("offset");
@@ -106,7 +100,6 @@ function shiftBlock (block, units) { //refactor with toggleRaise
     $thisBlock
       .toggleClass(offset)
       .data("offset", offset);
-      // .prev().toggleClass("rightSideGap");
   }
 
   return $thisBlock;
@@ -132,8 +125,6 @@ function exchangeBlocks (first, second) {
   setTimeout(fadeBlock, 1000, first);
 }
 
-var grid = new Grid(10);
-
 function shuffleBlocks (m) {
   //shuffle all blocks.
   var rand = Math.floor(Math.random() * m--);
@@ -154,11 +145,35 @@ function shuffleBlocks (m) {
   }
 }
 
+function insertionSort (m) {
+  //Perform insertion sort.
+  var $temp, i, j;
+
+  for (i = 2; i <= m; i++) {
+    $temp = selectBlock(i);
+
+    j=i;
+    while (j > 1 && selectBlock(j-1).data("number") > $temp.data("number")) { //&& A[j-1] > x
+      swapBlocks(j-1, j); //swap A[j] = A[j-1]
+      j--;
+    }
+    //A[j]=temp
+  }
+}
+
+var grid = new Grid(10);
+
 /*************************
 Event Listeners
 **************************/
 
-$("#shuffleButton").on("click", function () {
+$("#shuffleButton").on("click", function (e) {
+  e.preventDefault();
   fadeGridtoggle();
   shuffleBlocks($(".blockFrame").length);
+});
+
+$("#sortButton").on("click", function (e) {
+  e.preventDefault();
+  insertionSort($(".blockFrame").length);
 });
