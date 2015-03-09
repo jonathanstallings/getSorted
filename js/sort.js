@@ -123,11 +123,11 @@ function exchangeBlocks (first, second) {
   showBlock(second);
   lowerBlock(first);
   raiseBlock(second);
-  setTimeout(swapBlocks, 400, first, second);
-  setTimeout(lowerBlock, 600, second);
-  setTimeout(raiseBlock, 600, first);
-  setTimeout(fadeBlock, 1000, second);
-  setTimeout(fadeBlock, 1000, first);
+  setTimeout(swapBlocks, 300, first, second);
+  setTimeout(lowerBlock, 450, second);
+  setTimeout(raiseBlock, 450, first);
+  setTimeout(fadeBlock, 750, second);
+  setTimeout(fadeBlock, 750, first);
 }
 
 function shuffleBlocks (m) {
@@ -137,7 +137,7 @@ function shuffleBlocks (m) {
   if (rand != m) { //random choice is not last block
     exchangeBlocks(rand + 1, m + 1); //do animation
     if (m) {
-      setTimeout(shuffleBlocks, 1200, m);
+      setTimeout(shuffleBlocks, 900, m);
     } else {
       showGrid();
     }
@@ -176,9 +176,9 @@ function insertionSortAnimated (i, m) {
       exchangeBlocks(j-1, j);
       j--;
       if (j>0) {
-        setTimeout(innerLoop, 1200, i, j, m, temp);
+        setTimeout(innerLoop, 900, i, j, m, temp);
       } else {
-        setTimeout(insertionSortAnimated, 1200, ++i, m);
+        setTimeout(insertionSortAnimated, 900, ++i, m);
       }
     } else {
       insertionSortAnimated(++i, m);
