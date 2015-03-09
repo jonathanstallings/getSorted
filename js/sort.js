@@ -72,9 +72,14 @@ function showBlock (block) {
   $thisBlock.removeClass("faded hidden");
 }
 
-function fadeGridtoggle () {
+function fadeGrid () {
   //Toggles faded state of grid.
-  $display.children().toggleClass("faded");
+  $display.children().addClass("faded");
+}
+
+function showGrid () {
+  //Toggles faded state of grid.
+  $display.children().removeClass("faded");
 }
 
 function shiftBlock (block, units) {
@@ -134,13 +139,13 @@ function shuffleBlocks (m) {
     if (m) {
       setTimeout(shuffleBlocks, 1200, m);
     } else {
-      fadeGridtoggle();
+      showGrid();
     }
   } else { //else skip animation time
     if (m) {
       shuffleBlocks(m);
     } else {
-      fadeGridtoggle();
+      showGrid();
     }
   }
 }
@@ -164,7 +169,6 @@ function insertionSortAnimated (i, m) {
   //Perform insertion sort.
   var temp, j;
   temp = selectBlock(i).data("number");
-  console.log("arggg!");
 
   var innerLoop = function (i, j, m, temp) {
     // body...
@@ -184,6 +188,8 @@ function insertionSortAnimated (i, m) {
   if (i<=m) {
     j=i;
     innerLoop(i, j, m, temp);
+  } else {
+    showGrid();
   }
 }
 
@@ -195,7 +201,7 @@ Event Listeners
 
 $("#shuffleButton").on("click", function (e) {
   e.preventDefault();
-  fadeGridtoggle();
+  fadeGrid();
   shuffleBlocks($(".blockFrame").length);
 });
 
