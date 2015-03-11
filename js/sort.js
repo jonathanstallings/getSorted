@@ -155,7 +155,7 @@ function shuffleBlocks (m, style) {
 }
 
 function insertionSort (m) {
-  //Perform insertion sort.
+  //Perform insertion sort with no animation.
   var $temp, i, j;
 
   for (i = 2; i <= m; i++) {
@@ -169,29 +169,29 @@ function insertionSort (m) {
   }
 }
 
-function insertionSortAnimated (i, m) {
+function insertionSortAnimated (i, m, style) {
   //Perform insertion sort with simple animation.
   var temp, j;
   temp = selectBlock(i).data("number");
 
-  var innerLoop = function (i, j, m, temp) {
+  var innerLoop = function (i, j, m, temp, style) {
     // body...
     if (j>1 && selectBlock(j-1).data("number") > temp) {
-      exchangeBlocks(j-1, j);
+      exchangeBlocks(j-1, j, style);
       j--;
       if (j>0) {
-        setTimeout(innerLoop, 900, i, j, m, temp);
+        setTimeout(innerLoop, 900, i, j, m, temp, style);
       } else {
-        setTimeout(insertionSortAnimated, 900, ++i, m);
+        setTimeout(insertionSortAnimated, 900, ++i, m, style);
       }
     } else {
-      insertionSortAnimated(++i, m);
+      insertionSortAnimated(++i, m, style);
     }
   };
 
   if (i<=m) {
     j=i;
-    innerLoop(i, j, m, temp);
+    innerLoop(i, j, m, temp, style);
   } else {
     showGrid();
   }
@@ -215,7 +215,11 @@ $("#shuffleButton").on("click", function (e) {
 
 $("#sortButton").on("click", function (e) {
   e.preventDefault();
-  insertionSortAnimated(2, $(".blockFrame").length);
+  if (window.innerWidth <= 900) {
+    insertionSortAnimated(2, $(".blockFrame").length, "mobile");
+  } else {
+    insertionSortAnimated(2, $(".blockFrame").length, "full");
+  }
 });
 
 $("#resetButton").on("click", function (e) {
