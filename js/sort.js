@@ -131,7 +131,7 @@ function exchangeBlocks (first, second) {
 }
 
 function exchangeBlocksMobile (first, second) {
-  //Exchange two blocks with simple animation for smmall displays.
+  //Exchange two blocks with simple animation for small displays.
   showBlock(first);
   showBlock(second);
   // lowerBlock(first);
@@ -235,7 +235,7 @@ Event Listeners
 $("#shuffleButton").on("click", function (e) {
   e.preventDefault();
   fadeGrid();
-  if ($(window).width() < 480) {
+  if (window.innerWidth <= 900) {
     shuffleBlocksMobile($(".blockFrame").length);
   } else {
     shuffleBlocks($(".blockFrame").length);
