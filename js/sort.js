@@ -117,66 +117,37 @@ function swapBlocks (first, second) {
     .insertBefore(selectBlock(first));
 }
 
-function exchangeBlocks (first, second) {
+function exchangeBlocks (first, second, style) {
   //Exchange two blocks with simple animation.
   showBlock(first);
   showBlock(second);
-  lowerBlock(first);
-  raiseBlock(second);
-  setTimeout(swapBlocks, 300, first, second);
-  setTimeout(lowerBlock, 450, second);
-  setTimeout(raiseBlock, 450, first);
-  setTimeout(fadeBlock, 750, second);
-  setTimeout(fadeBlock, 750, first);
-}
-
-function exchangeBlocksMobile (first, second) {
-  //Exchange two blocks with simple animation for small displays.
-  showBlock(first);
-  showBlock(second);
-  // lowerBlock(first);
-  // raiseBlock(second);
-  setTimeout(swapBlocks, 300, first, second);
-  // setTimeout(lowerBlock, 450, second);
-  // setTimeout(raiseBlock, 450, first);
-  setTimeout(fadeBlock, 750, second);
-  setTimeout(fadeBlock, 750, first);
-}
-
-function shuffleBlocksMobile (m) {
-  //Shuffle all blocks with simple animation.
-  var rand = Math.floor(Math.random() * m--);
-
-  if (rand != m) { //random choice is not last block
-    exchangeBlocksMobile(rand + 1, m + 1); //do animation
-    if (m) {
-      setTimeout(shuffleBlocksMobile, 900, m);
-    } else {
-      showGrid();
-    }
-  } else { //else skip animation time
-    if (m) {
-      shuffleBlocksMobile(m);
-    } else {
-      showGrid();
-    }
+  if (style == "full") {
+    lowerBlock(first);
+    raiseBlock(second);
   }
+  setTimeout(swapBlocks, 300, first, second);
+  if (style == "full") {
+    setTimeout(lowerBlock, 450, second);
+    setTimeout(raiseBlock, 450, first);
+  }
+  setTimeout(fadeBlock, 750, second);
+  setTimeout(fadeBlock, 750, first);
 }
 
-function shuffleBlocks (m) {
+function shuffleBlocks (m, style) {
   //Shuffle all blocks with simple animation.
   var rand = Math.floor(Math.random() * m--);
 
   if (rand != m) { //random choice is not last block
-    exchangeBlocks(rand + 1, m + 1); //do animation
+    exchangeBlocks(rand + 1, m + 1, style); //do animation
     if (m) {
-      setTimeout(shuffleBlocks, 900, m);
+      setTimeout(shuffleBlocks, 900, m, style);
     } else {
       showGrid();
     }
   } else { //else skip animation time
     if (m) {
-      shuffleBlocks(m);
+      shuffleBlocks(m, style);
     } else {
       showGrid();
     }
@@ -236,9 +207,9 @@ $("#shuffleButton").on("click", function (e) {
   e.preventDefault();
   fadeGrid();
   if (window.innerWidth <= 900) {
-    shuffleBlocksMobile($(".blockFrame").length);
+    shuffleBlocks($(".blockFrame").length, "mobile");
   } else {
-    shuffleBlocks($(".blockFrame").length);
+    shuffleBlocks($(".blockFrame").length, "full");
   }
 });
 
