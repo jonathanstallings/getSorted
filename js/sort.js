@@ -4,7 +4,7 @@ $display = $("#display");
 function Block (column) {
   this.itemHeight = "height" + column;
   this.toHTML = function () {
-    var element = '<div class="blockFrame" data-number=' + column +'><div class="blockItem ';
+    var element = '<div class="blockFrame hidden faded" data-number=' + column +'><div class="blockItem ';
     element += this.itemHeight + '"';
     element += ">" + column + "</div></div>";
     return element;
@@ -21,12 +21,12 @@ function Grid (columns) {
 }
 
 function selectBlock (block) {
-  //Select a DOM block
+  //Select a DOM block.
   return $display.children().eq(block-1);
 }
 
 function raiseBlock (block) {
-  //Raise a block
+  //Raise a block.
   var $thisBlock = selectBlock(block);
 
   if ($thisBlock.hasClass("lowered")) {
@@ -38,7 +38,7 @@ function raiseBlock (block) {
 }
 
 function lowerBlock (block) {
-  //Lower a block
+  //Lower a block.
   var $thisBlock = selectBlock(block);
 
   if ($thisBlock.hasClass("raised")) {
@@ -50,7 +50,7 @@ function lowerBlock (block) {
 }
 
 function fadeBlock (block) {
-  //Fades out a block
+  //Fade out a block.
   var $thisBlock = selectBlock(block);
 
   $thisBlock.addClass("faded");
@@ -58,26 +58,43 @@ function fadeBlock (block) {
 }
 
 function hideBlock (block) {
-  //Hides a block, keeping element placement.
+  //Hide a block, keeping element placement.
   var $thisBlock = selectBlock(block);
 
-  $thisBlock.toggleClass("hidden");
+  $thisBlock.addClass("hidden");
   return $thisBlock;
 }
 
 function showBlock (block) {
-  //Unfades or unhides a block
+  //Unfade and unhide a block.
   var $thisBlock = selectBlock(block);
 
   $thisBlock.removeClass("faded hidden");
 }
 
-function fadeGridtoggle () {
-  //Toggles faded state of grid.
-  $display.children().toggleClass("faded");
+function fadeGrid () {
+  //Fade out the grid.
+  $display.children().addClass("faded");
 }
 
-function shiftBlock (block, units) {
+
+function hideGrid () {
+  //Hide the grid, keeping element placement.
+  $display.children().addClass("hidden");
+}
+
+function showGrid () {
+  //Unfade and unhide the grid.
+  $display.children().removeClass("faded hidden");
+}
+
+function flourishGrid () {
+  //Present the grid with a flourish.
+  showGrid();
+  $display.children().addClass("expanded");
+}
+
+function shiftBlock (block, units) { //This animation style is currently unused, but fun to play with.
   //Shift block left or right.
   var $thisBlock = selectBlock(block);
   var offset = 'shift';
@@ -112,41 +129,45 @@ function swapBlocks (first, second) {
     .insertBefore(selectBlock(first));
 }
 
-function exchangeBlocks (first, second) {
-  //Exchange two blocks with simple animation.
+function exchangeBlocks (first, second, style) {
+  //Exchange two blocks with simple animation, optionally restricted for small displays.
   showBlock(first);
   showBlock(second);
-  lowerBlock(first);
-  raiseBlock(second);
-  setTimeout(swapBlocks, 400, first, second);
-  setTimeout(lowerBlock, 600, second);
-  setTimeout(raiseBlock, 600, first);
-  setTimeout(fadeBlock, 1000, second);
-  setTimeout(fadeBlock, 1000, first);
+  if (style == "full") {
+    lowerBlock(first);
+    raiseBlock(second);
+  }
+  setTimeout(swapBlocks, 300, first, second);
+  if (style == "full") {
+    setTimeout(lowerBlock, 450, second);
+    setTimeout(raiseBlock, 450, first);
+  }
+  setTimeout(fadeBlock, 750, second);
+  setTimeout(fadeBlock, 750, first);
 }
 
-function shuffleBlocks (m) {
-  //shuffle all blocks.
+function shuffleBlocks (m, style) {
+  //Shuffle all blocks with simple animation.
   var rand = Math.floor(Math.random() * m--);
 
   if (rand != m) { //random choice is not last block
-    exchangeBlocks(rand + 1, m + 1); //do animation
+    exchangeBlocks(rand + 1, m + 1, style); //do animation
     if (m) {
-      setTimeout(shuffleBlocks, 1200, m);
+      setTimeout(shuffleBlocks, 900, m, style);
     } else {
-      fadeGridtoggle();
+      showGrid();
     }
   } else { //else skip animation time
     if (m) {
-      shuffleBlocks(m);
+      shuffleBlocks(m, style);
     } else {
-      fadeGridtoggle();
+      showGrid();
     }
   }
 }
 
 function insertionSort (m) {
-  //Perform insertion sort.
+  //Perform insertion sort with no animation.
   var $temp, i, j;
 
   for (i = 2; i <= m; i++) {
@@ -160,34 +181,36 @@ function insertionSort (m) {
   }
 }
 
-function insertionSortAnimated (i, m) {
-  //Perform insertion sort.
+function insertionSortAnimated (i, m, style) {
+  //Perform insertion sort with simple animation.
   var temp, j;
   temp = selectBlock(i).data("number");
-  console.log("arggg!");
 
-  var innerLoop = function (i, j, m, temp) {
+  var innerLoop = function (i, j, m, temp, style) {
     // body...
     if (j>1 && selectBlock(j-1).data("number") > temp) {
-      exchangeBlocks(j-1, j);
+      exchangeBlocks(j-1, j, style);
       j--;
       if (j>0) {
-        setTimeout(innerLoop, 1200, i, j, m, temp);
+        setTimeout(innerLoop, 900, i, j, m, temp, style);
       } else {
-        setTimeout(insertionSortAnimated, 1200, ++i, m);
+        setTimeout(insertionSortAnimated, 900, ++i, m, style);
       }
     } else {
-      insertionSortAnimated(++i, m);
+      insertionSortAnimated(++i, m, style);
     }
   };
 
   if (i<=m) {
     j=i;
-    innerLoop(i, j, m, temp);
+    innerLoop(i, j, m, temp, style);
+  } else {
+    showGrid();
   }
 }
 
 var grid = new Grid(10);
+setTimeout(flourishGrid, 400);
 
 /*************************
 Event Listeners
@@ -195,17 +218,26 @@ Event Listeners
 
 $("#shuffleButton").on("click", function (e) {
   e.preventDefault();
-  fadeGridtoggle();
-  shuffleBlocks($(".blockFrame").length);
+  fadeGrid();
+  if (window.innerWidth <= 900) {
+    shuffleBlocks($(".blockFrame").length, "mobile");
+  } else {
+    shuffleBlocks($(".blockFrame").length, "full");
+  }
 });
 
 $("#sortButton").on("click", function (e) {
   e.preventDefault();
-  insertionSortAnimated(2, $(".blockFrame").length);
+  if (window.innerWidth <= 900) {
+    insertionSortAnimated(2, $(".blockFrame").length, "mobile");
+  } else {
+    insertionSortAnimated(2, $(".blockFrame").length, "full");
+  }
 });
 
 $("#resetButton").on("click", function (e) {
   e.preventDefault();
   $display.children().remove();
   grid = new Grid(10);
+  setTimeout(flourishGrid, 400);
 });
