@@ -360,10 +360,6 @@ Media Queries
 
 @media (max-width: 900px) {
 
-  .wrapper {
-/*    padding 5px;*/
-  }
-
   #controls {
     min-height: 300px;
     width: 100%;

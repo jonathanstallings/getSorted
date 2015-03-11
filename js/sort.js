@@ -235,7 +235,11 @@ Event Listeners
 $("#shuffleButton").on("click", function (e) {
   e.preventDefault();
   fadeGrid();
-  shuffleBlocks($(".blockFrame").length);
+  if ($(window).width() < 480) {
+    shuffleBlocksMobile($(".blockFrame").length);
+  } else {
+    shuffleBlocks($(".blockFrame").length);
+  }
 });
 
 $("#sortButton").on("click", function (e) {
