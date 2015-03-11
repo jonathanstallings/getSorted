@@ -121,11 +121,6 @@ background-color: rgb(50,50,50);
   max-width: 100%;
 }
 
-.container {
-  margin: 0 auto;
-  width: 300px;
-}
-
 /*************************
 Navigation
 **************************/
@@ -170,7 +165,6 @@ Navigation
   float: left;
   position: relative;
   display: block;
-  padding: 0 10px;
 }
 
 .nav>li:hover {
@@ -180,8 +174,7 @@ Navigation
 .nav>li>a {
   display: block;
   line-height: 20px;
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding: 15px;
 }
 
 .logo {
@@ -206,6 +199,11 @@ Visualization Display
   padding: 50px;
   float: left;
   background-color: rgba(40,40,40,0.5);
+}
+
+#controls .container {
+  margin: 0 auto;
+  width: 300px;
 }
 
 #display {
@@ -392,7 +390,7 @@ Grid Sizing and Postioning
 Media Queries
 **************************/
 
-@media (min-width: 480px) {
+@media (min-width: 481px) {
 
   .navbar-header {
     float: left;
@@ -404,6 +402,10 @@ Media Queries
     padding-bottom: 0;
     overflow: visible!important;
     visibility: visible!important;
+  }
+
+  #controls {
+    border-right: 1px solid rgb(30,30,30);
   }
 
 }
@@ -425,10 +427,6 @@ Media Queries
 }
 
 @media (max-width: 480px) {
-
-  .wrapper {
-    padding: 5px;
-  }
 
   .navbar-toggle {
     position: relative;
