@@ -241,3 +241,8 @@ $("#resetButton").on("click", function (e) {
   grid = new Grid(10);
   setTimeout(flourishGrid, 400);
 });
+
+$("#navbar-toggle").on("click", function (e) {
+  e.preventDefault();
+  $("nav.navbar-collapse").toggleClass("collapse");
+});
