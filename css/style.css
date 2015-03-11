@@ -173,6 +173,10 @@ Navigation
   padding: 0 10px;
 }
 
+.nav>li:hover {
+  background-color: rgb(50, 50, 50);
+}
+
 .nav>li>a {
   display: block;
   line-height: 20px;
@@ -387,6 +391,22 @@ Grid Sizing and Postioning
 /*************************
 Media Queries
 **************************/
+
+@media (min-width: 480px) {
+
+  .navbar-header {
+    float: left;
+  }
+
+  .navbar-collapse.collapse {
+    display: block!important;
+    height: auto!important;
+    padding-bottom: 0;
+    overflow: visible!important;
+    visibility: visible!important;
+  }
+
+}
 
 @media (max-width: 900px) {
 
