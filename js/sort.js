@@ -4,7 +4,7 @@ $display = $("#display");
 function Block (column) {
   this.itemHeight = "height" + column;
   this.toHTML = function () {
-    var element = '<div class="blockFrame" data-number=' + column +'><div class="blockItem ';
+    var element = '<div class="blockFrame hidden faded" data-number=' + column +'><div class="blockItem ';
     element += this.itemHeight + '"';
     element += ">" + column + "</div></div>";
     return element;
@@ -21,12 +21,12 @@ function Grid (columns) {
 }
 
 function selectBlock (block) {
-  //Select a DOM block
+  //Select a DOM block.
   return $display.children().eq(block-1);
 }
 
 function raiseBlock (block) {
-  //Raise a block
+  //Raise a block.
   var $thisBlock = selectBlock(block);
 
   if ($thisBlock.hasClass("lowered")) {
@@ -38,7 +38,7 @@ function raiseBlock (block) {
 }
 
 function lowerBlock (block) {
-  //Lower a block
+  //Lower a block.
   var $thisBlock = selectBlock(block);
 
   if ($thisBlock.hasClass("raised")) {
@@ -50,7 +50,7 @@ function lowerBlock (block) {
 }
 
 function fadeBlock (block) {
-  //Fades out a block
+  //Fade out a block.
   var $thisBlock = selectBlock(block);
 
   $thisBlock.addClass("faded");
@@ -58,28 +58,40 @@ function fadeBlock (block) {
 }
 
 function hideBlock (block) {
-  //Hides a block, keeping element placement.
+  //Hide a block, keeping element placement.
   var $thisBlock = selectBlock(block);
 
-  $thisBlock.toggleClass("hidden");
+  $thisBlock.addClass("hidden");
   return $thisBlock;
 }
 
 function showBlock (block) {
-  //Unfades or unhides a block
+  //Unfade and unhide a block.
   var $thisBlock = selectBlock(block);
 
   $thisBlock.removeClass("faded hidden");
 }
 
 function fadeGrid () {
-  //Toggles faded state of grid.
+  //Fade out the grid.
   $display.children().addClass("faded");
 }
 
+
+function hideGrid () {
+  //Hide the grid, keeping element placement.
+  $display.children().addClass("hidden");
+}
+
 function showGrid () {
-  //Toggles faded state of grid.
-  $display.children().removeClass("faded");
+  //Unfade and unhide the grid.
+  $display.children().removeClass("faded hidden");
+}
+
+function flourishGrid () {
+  //Present the grid with a flourish.
+  showGrid();
+  $display.children().addClass("expanded");
 }
 
 function shiftBlock (block, units) {
@@ -118,7 +130,7 @@ function swapBlocks (first, second) {
 }
 
 function exchangeBlocks (first, second, style) {
-  //Exchange two blocks with simple animation.
+  //Exchange two blocks with simple animation, optionally restricted for small displays.
   showBlock(first);
   showBlock(second);
   if (style == "full") {
@@ -198,6 +210,7 @@ function insertionSortAnimated (i, m, style) {
 }
 
 var grid = new Grid(10);
+setTimeout(flourishGrid, 400);
 
 /*************************
 Event Listeners
@@ -226,4 +239,5 @@ $("#resetButton").on("click", function (e) {
   e.preventDefault();
   $display.children().remove();
   grid = new Grid(10);
+  setTimeout(flourishGrid, 400);
 });
