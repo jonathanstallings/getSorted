@@ -94,7 +94,7 @@ function flourishGrid () {
   $display.children().addClass("expanded");
 }
 
-function shiftBlock (block, units) {
+function shiftBlock (block, units) { //This animation style is currently unused, but fun to play with.
   //Shift block left or right.
   var $thisBlock = selectBlock(block);
   var offset = 'shift';
