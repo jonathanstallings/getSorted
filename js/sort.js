@@ -130,8 +130,41 @@ function exchangeBlocks (first, second) {
   setTimeout(fadeBlock, 750, first);
 }
 
+function exchangeBlocksMobile (first, second) {
+  //Exchange two blocks with simple animation for smmall displays.
+  showBlock(first);
+  showBlock(second);
+  // lowerBlock(first);
+  // raiseBlock(second);
+  setTimeout(swapBlocks, 300, first, second);
+  // setTimeout(lowerBlock, 450, second);
+  // setTimeout(raiseBlock, 450, first);
+  setTimeout(fadeBlock, 750, second);
+  setTimeout(fadeBlock, 750, first);
+}
+
+function shuffleBlocksMobile (m) {
+  //Shuffle all blocks with simple animation.
+  var rand = Math.floor(Math.random() * m--);
+
+  if (rand != m) { //random choice is not last block
+    exchangeBlocksMobile(rand + 1, m + 1); //do animation
+    if (m) {
+      setTimeout(shuffleBlocksMobile, 900, m);
+    } else {
+      showGrid();
+    }
+  } else { //else skip animation time
+    if (m) {
+      shuffleBlocksMobile(m);
+    } else {
+      showGrid();
+    }
+  }
+}
+
 function shuffleBlocks (m) {
-  //shuffle all blocks.
+  //Shuffle all blocks with simple animation.
   var rand = Math.floor(Math.random() * m--);
 
   if (rand != m) { //random choice is not last block
@@ -166,7 +199,7 @@ function insertionSort (m) {
 }
 
 function insertionSortAnimated (i, m) {
-  //Perform insertion sort.
+  //Perform insertion sort with simple animation.
   var temp, j;
   temp = selectBlock(i).data("number");
 

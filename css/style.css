@@ -366,17 +366,40 @@ Media Queries
   }
 
   #controls {
-    min-height: 400px;
+    min-height: 300px;
     width: 100%;
+    padding: 20px 0;
     border-bottom: 1px solid rgb(30,30,30);
+  }
+
+  #display {
+    padding: 20px 0;
   }
 
 }
 
-/*@media (max-width: 500px) {
+@media (max-width: 480px) {
 
   .wrapper {
-    padding 5px;
+    padding: 5px;
   }
 
-}*/
+  #controls {
+    min-height: 250px;
+    padding: 0;
+  }
+
+  #display {
+    padding: 20px 0;
+  }
+
+  .blockFrame {
+    margin-left: 15px;
+    width: 15px;
+  }
+
+  .blockItem {
+    font-size: small;
+  }
+
+}
