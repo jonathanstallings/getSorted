@@ -1,7 +1,9 @@
+//Goal: Create visualizations for insertion sort and in-place shuffle algorithms.
 
-$display = $("#display");
+var $display = $("#display");
 
 function Block (column) {
+  //Constructor for blocks of increasing height.
   this.itemHeight = "height" + column;
   this.toHTML = function () {
     var element = '<div class="blockFrame hidden faded" data-number=' + column +'><div class="blockItem ';
@@ -11,10 +13,9 @@ function Block (column) {
   };
 }
 
-function Grid (columns) {
-  this.blocks = [];
-
-  for (var i = 1; i <= columns; i++) {
+function Grid (blocks) {
+  //Constructor for grid with given number of blocks.
+  for (var i = 1; i <= blocks; i++) {
     var block = new Block(i);
     $display.append(block.toHTML());
   }
@@ -147,7 +148,7 @@ function exchangeBlocks (first, second, style) {
 }
 
 function shuffleBlocks (m, style) {
-  //Shuffle all blocks with simple animation.
+  //Shuffle all blocks with simple animation, optionally restricted for small displays.
   var rand = Math.floor(Math.random() * m--);
 
   if (rand != m) { //random choice is not last block
@@ -182,7 +183,7 @@ function insertionSort (m) {
 }
 
 function insertionSortAnimated (i, m, style) {
-  //Perform insertion sort with simple animation.
+  //Perform insertion sort with simple animation, optionally restricted for small displays.
   var temp, j;
   temp = selectBlock(i).data("number");
 
@@ -209,8 +210,15 @@ function insertionSortAnimated (i, m, style) {
   }
 }
 
-var grid = new Grid(10);
-setTimeout(flourishGrid, 400);
+/*************************
+On DOM Load
+**************************/
+
+$(function () {
+  //Create and display the blocks.
+  var grid = new Grid(10);
+  setTimeout(flourishGrid, 400);
+});
 
 /*************************
 Event Listeners
