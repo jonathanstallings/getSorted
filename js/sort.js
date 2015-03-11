@@ -1,6 +1,8 @@
 //Goal: Create visualizations for insertion sort and in-place shuffle algorithms.
 
 var $display = $("#display");
+var $controls = $("#controls fieldset");
+var $controlButtons = $("main button");
 
 function Block (column) {
   //Constructor for blocks of increasing height.
@@ -151,6 +153,8 @@ function shuffleBlocks (m, style) {
   //Shuffle all blocks with simple animation, optionally restricted for small displays.
   var rand = Math.floor(Math.random() * m--);
 
+
+
   if (rand != m) { //random choice is not last block
     exchangeBlocks(rand + 1, m + 1, style); //do animation
     if (m) {
@@ -163,6 +167,7 @@ function shuffleBlocks (m, style) {
       shuffleBlocks(m, style);
     } else {
       showGrid();
+      enableControls();
     }
   }
 }
@@ -207,7 +212,20 @@ function insertionSortAnimated (i, m, style) {
     innerLoop(i, j, m, temp, style);
   } else {
     showGrid();
+    enableControls();
   }
+}
+
+function disableControls () {
+  //Disable control buttons.
+  $controlButtons.attr("disabled", "disabled");
+  $controls.toggleClass("faded");
+}
+
+function enableControls () {
+  //Enable control buttons.
+  $controlButtons.removeAttr("disabled");
+  $controls.toggleClass("faded");
 }
 
 /*************************
@@ -227,6 +245,7 @@ Event Listeners
 $("#shuffleButton").on("click", function (e) {
   e.preventDefault();
   fadeGrid();
+  disableControls();
   if (window.innerWidth <= 900) {
     shuffleBlocks($(".blockFrame").length, "mobile");
   } else {
@@ -236,6 +255,7 @@ $("#shuffleButton").on("click", function (e) {
 
 $("#sortButton").on("click", function (e) {
   e.preventDefault();
+  disableControls();
   if (window.innerWidth <= 900) {
     insertionSortAnimated(2, $(".blockFrame").length, "mobile");
   } else {
