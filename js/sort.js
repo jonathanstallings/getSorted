@@ -2,7 +2,7 @@
 
 var $display = $("#display");
 var $controls = $("#controls fieldset");
-var $controlButtons = $("main button");
+var $controlButtons = $("#controls button");
 
 function Block (column) {
   //Constructor for blocks of increasing height.
@@ -80,7 +80,6 @@ function fadeGrid () {
   $display.children().addClass("faded");
 }
 
-
 function hideGrid () {
   //Hide the grid, keeping element placement.
   $display.children().addClass("hidden");
@@ -153,14 +152,13 @@ function shuffleBlocks (m, style) {
   //Shuffle all blocks with simple animation, optionally restricted for small displays.
   var rand = Math.floor(Math.random() * m--);
 
-
-
   if (rand != m) { //random choice is not last block
     exchangeBlocks(rand + 1, m + 1, style); //do animation
     if (m) {
       setTimeout(shuffleBlocks, 900, m, style);
     } else {
       showGrid();
+      enableControls();
     }
   } else { //else skip animation time
     if (m) {
@@ -219,13 +217,13 @@ function insertionSortAnimated (i, m, style) {
 function disableControls () {
   //Disable control buttons.
   $controlButtons.attr("disabled", "disabled");
-  $controls.toggleClass("faded");
+  $controls.addClass("faded");
 }
 
 function enableControls () {
   //Enable control buttons.
   $controlButtons.removeAttr("disabled");
-  $controls.toggleClass("faded");
+  $controls.removeClass("faded");
 }
 
 /*************************
