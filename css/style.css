@@ -185,6 +185,10 @@ Navigation
   font-weight: bold;
 }
 
+.nav>li>a:hover {
+  color: white;
+}
+
 .logo {
   float: left;
   margin: 0;
