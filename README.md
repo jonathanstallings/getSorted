@@ -9,3 +9,7 @@
 ### Notes ###
 
 * Mobile navigation inspired by the [Bootstrap homepage](http://getbootstrap.com/).
+
+### Live Demo ###
+
+* [getSorted on github.io](http://jonathanstallings.github.io/getSorted/)
